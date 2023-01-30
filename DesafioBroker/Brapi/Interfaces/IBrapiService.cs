@@ -4,5 +4,5 @@ namespace DesafioBroker.Brapi.Interfaces;
 
 public interface IBrapiClient
 {
-    Task<TickersQuotesList?> GetTickersQuotesList(IEnumerable<string> tickers);
+    Task<TickersQuotesList> GetTickersQuotesList(IEnumerable<string> tickers);
 }

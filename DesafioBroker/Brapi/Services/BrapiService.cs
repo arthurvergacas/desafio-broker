@@ -5,15 +5,24 @@ namespace DesafioBroker.Brapi.Services;
 
 public class BrapiService
 {
-    private readonly IHttpClientFactory clientFactory;
+    private readonly IBrapiClient brapiClient;
 
-    public BrapiService(IHttpClientFactory clientFactory)
+    public BrapiService(IBrapiClient brapiClient)
     {
-        this.clientFactory = clientFactory;
+        this.brapiClient = brapiClient;
     }
 
-    public async Task<TickersQuotesList> GetTickersQuotesList()
+    public async Task<TickersQuotesList> GetTickersQuotesList(IEnumerable<string> tickers)
     {
-        throw new NotImplementedException();
+        try
+        {
+            return await this.brapiClient.GetTickersQuotesList(tickers);
+        }
+        catch
+        {
+            // TODO receber os erros de não encontrado ou erro de api e essas coisas que vc vai lançar no client
+            return new TickersQuotesList();
+        }
+
     }
 }
