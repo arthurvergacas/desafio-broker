@@ -18,9 +18,9 @@ public class BrapiClient : IBrapiClient
         this.client.BaseAddress = new Uri(this.configurationService.Configuration!.Stock.Brapi.QuotesUrl);
     }
 
-    public async Task<TickersQuotesList> GetTickersQuotesList(IEnumerable<string> tickers)
+    public async Task<TickersQuotesList> GetTickersQuotesList(string parsedTickers)
     {
-        var response = await this.client.GetAsync($"{string.Join(',', tickers)}");
+        var response = await this.client.GetAsync(parsedTickers);
 
         if (response.IsSuccessStatusCode)
         {

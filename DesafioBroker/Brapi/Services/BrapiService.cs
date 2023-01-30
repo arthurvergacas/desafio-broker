@@ -14,15 +14,6 @@ public class BrapiService
 
     public async Task<TickersQuotesList> GetTickersQuotesList(IEnumerable<string> tickers)
     {
-        try
-        {
-            return await this.brapiClient.GetTickersQuotesList(tickers);
-        }
-        catch
-        {
-            // TODO receber os erros de não encontrado ou erro de api e essas coisas que vc vai lançar no client
-            return new TickersQuotesList();
-        }
-
+        return await this.brapiClient.GetTickersQuotesList(string.Join(',', tickers));
     }
 }
