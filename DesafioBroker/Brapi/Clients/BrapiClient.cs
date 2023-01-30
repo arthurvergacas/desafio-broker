@@ -18,17 +18,18 @@ public class BrapiClient : IBrapiClient
         this.client.BaseAddress = new Uri(this.configurationService.Configuration!.Stock.Brapi.QuotesUrl);
     }
 
-    public async Task<TickersQuotesList?> GetTickersQuotesList(IEnumerable<string> tickers)
+    public async Task<TickersQuotesList> GetTickersQuotesList(IEnumerable<string> tickers)
     {
-        var response = await this.client.GetAsync($"/{string.Join(',', tickers)}");
+        var response = await this.client.GetAsync($"{string.Join(',', tickers)}");
 
         if (response.IsSuccessStatusCode)
         {
+
             using var stream = await response.Content.ReadAsStreamAsync();
-            using var streamReader = new StreamReader(stream);
+            using var streamReader = new StreamReader(stream, System.Text.Encoding.UTF8);
             using var jsonTextReader = new JsonTextReader(streamReader);
 
-            return new JsonSerializer().Deserialize<TickersQuotesList>(jsonTextReader);
+            return new JsonSerializer().Deserialize<TickersQuotesList>(jsonTextReader) ?? new TickersQuotesList();
         }
 
         return new TickersQuotesList();
