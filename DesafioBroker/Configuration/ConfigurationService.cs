@@ -6,7 +6,7 @@ public class ConfigurationService
 {
     private readonly IConfiguration configurationInterface;
 
-    public Models.Configuration? Configuration => this.configurationInterface.Get<Models.Configuration>();
+    public Models.Configuration Configuration => this.configurationInterface.Get<Models.Configuration>()!;
 
     public ConfigurationService(IConfiguration configurationInterface)
     {

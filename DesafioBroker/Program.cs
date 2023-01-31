@@ -16,7 +16,7 @@ public class DesafioBroker
 
             var configuration = services.GetService<ConfigurationService>()!.Configuration;
 
-            Console.WriteLine(configuration?.Stock.Brapi.QuotesUrl);
+            Console.WriteLine(configuration.Stock.Brapi.QuotesUrl);
 
             var brapiService = services.GetService<BrapiService>()!;
 
