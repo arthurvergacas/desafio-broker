@@ -14,6 +14,13 @@ public class BrapiService
 
     public async Task<TickersQuotesList> GetTickersQuotesList(IEnumerable<string> tickers)
     {
+        ArgumentNullException.ThrowIfNull(tickers);
+
+        if (!tickers.Any())
+        {
+            throw new ArgumentException("List of tickers cannot be empty", nameof(tickers));
+        }
+
         return await this.brapiClient.GetTickersQuotesList(string.Join(',', tickers));
     }
 }
