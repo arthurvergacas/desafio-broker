@@ -51,4 +51,25 @@ public class BrapiServiceTest
         Assert.Equal(expectedTickersQuotes, tickersQuotes);
     }
 
+    [Fact]
+    public async Task GetTickersQuotesList_WithNullTickers_ShouldThrowArgumentNullException()
+    {
+        var exception = await Assert.ThrowsAsync<ArgumentNullException>(
+            async () => await this.brapiService.GetTickersQuotesList(null!)
+        );
+
+        Assert.Equal("tickers", exception.ParamName);
+    }
+
+    [Fact]
+    public async Task GetTickersQuotesList_WithNoTickers_ShouldThrowArgumentException()
+    {
+        var exception = await Assert.ThrowsAsync<ArgumentException>(
+            async () => await this.brapiService.GetTickersQuotesList(new List<string> { })
+        );
+
+        Assert.Contains("List of tickers cannot be empty", exception.Message);
+        Assert.Equal("tickers", exception.ParamName);
+    }
+
 }
