@@ -14,7 +14,7 @@ public class BrapiService
 
     public async Task<TickersQuotesList> GetTickersQuotesList(IEnumerable<string> tickers)
     {
-        ArgumentNullException.ThrowIfNull(tickers);
+        ArgumentNullException.ThrowIfNull(tickers, nameof(tickers));
 
         if (!tickers.Any())
         {
