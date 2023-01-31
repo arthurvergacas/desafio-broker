@@ -1,7 +1,7 @@
 using System.Globalization;
 using System.Net;
 using System.Net.Mail;
-using DesafioBroker.Configuration;
+using DesafioBroker.Configuration.Interfaces;
 using DesafioBroker.Mail.Interfaces;
 
 namespace DesafioBroker.Mail.Services;
@@ -9,9 +9,9 @@ namespace DesafioBroker.Mail.Services;
 public class MailService : IMailService
 {
 
-    private readonly ConfigurationService configurationService;
+    private readonly IConfigurationService configurationService;
 
-    public MailService(ConfigurationService configurationService)
+    public MailService(IConfigurationService configurationService)
     {
         this.configurationService = configurationService;
     }
@@ -22,7 +22,7 @@ public class MailService : IMailService
         smptClient.Send(message);
     }
 
-    private SmtpClient CreateSmtpClient()
+    public SmtpClient CreateSmtpClient()
     {
         var smtpConfig = this.configurationService.Configuration!.Email.SMTPConfig;
 

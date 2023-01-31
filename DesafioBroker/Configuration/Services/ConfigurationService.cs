@@ -1,8 +1,9 @@
+using DesafioBroker.Configuration.Interfaces;
 using Microsoft.Extensions.Configuration;
 
-namespace DesafioBroker.Configuration;
+namespace DesafioBroker.Configuration.Services;
 
-public class ConfigurationService
+public class ConfigurationService : IConfigurationService
 {
     private readonly IConfiguration configurationInterface;
 
