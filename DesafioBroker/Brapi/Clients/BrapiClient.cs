@@ -20,19 +20,13 @@ public class BrapiClient : IBrapiClient
 
     public async Task<TickersQuotesList> GetTickersQuotesList(string parsedTickers)
     {
-        var response = await this.client.GetAsync(parsedTickers);
+        var response = (await this.client.GetAsync(parsedTickers)).EnsureSuccessStatusCode();
 
-        if (response.IsSuccessStatusCode)
-        {
+        using var stream = await response.Content.ReadAsStreamAsync();
+        using var streamReader = new StreamReader(stream, System.Text.Encoding.UTF8);
+        using var jsonTextReader = new JsonTextReader(streamReader);
 
-            using var stream = await response.Content.ReadAsStreamAsync();
-            using var streamReader = new StreamReader(stream, System.Text.Encoding.UTF8);
-            using var jsonTextReader = new JsonTextReader(streamReader);
-
-            return new JsonSerializer().Deserialize<TickersQuotesList>(jsonTextReader) ?? new TickersQuotesList();
-        }
-
-        return new TickersQuotesList();
+        return new JsonSerializer().Deserialize<TickersQuotesList>(jsonTextReader) ?? new TickersQuotesList();
     }
 
 }
