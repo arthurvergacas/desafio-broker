@@ -18,24 +18,6 @@ public class BrapiServiceTest
     }
 
     [Fact]
-    public async Task GetTickersQuotesList_WithSomeTickers_ShouldCallClientProperly()
-    {
-        var expectedTickersQuotes = new TickersQuotesList();
-
-        this.mockBrapiClient
-            .Setup(service => service.GetTickersQuotesList(It.IsAny<string>()))
-            .ReturnsAsync(expectedTickersQuotes);
-
-        var tickers = new List<string> { "PETR4", "VALE3" };
-        var parsedTickers = "PETR4,VALE3";
-
-        var tickersQuotes = await this.brapiService.GetTickersQuotesList(tickers);
-
-        Assert.Equal(expectedTickersQuotes, tickersQuotes);
-        this.mockBrapiClient.Verify((service) => service.GetTickersQuotesList(parsedTickers));
-    }
-
-    [Fact]
     public async Task GetTickersQuotesList_WithSomeTickers_ShouldReturnClientResult()
     {
         var expectedTickersQuotes = new TickersQuotesList();
@@ -49,6 +31,20 @@ public class BrapiServiceTest
         var tickersQuotes = await this.brapiService.GetTickersQuotesList(tickers);
 
         Assert.Equal(expectedTickersQuotes, tickersQuotes);
+    }
+
+    [Fact]
+    public async Task GetTickersQuotesList_WithSomeTickers_ShouldCallClientProperly()
+    {
+        this.mockBrapiClient
+            .Setup(service => service.GetTickersQuotesList(It.IsAny<string>()));
+
+        var tickers = new List<string> { "PETR4", "VALE3" };
+        var parsedTickers = "PETR4,VALE3";
+
+        await this.brapiService.GetTickersQuotesList(tickers);
+
+        this.mockBrapiClient.Verify((service) => service.GetTickersQuotesList(parsedTickers));
     }
 
     [Fact]
