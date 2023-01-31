@@ -30,7 +30,7 @@ public class BrapiServiceTest
 
         var tickersQuotes = await this.brapiService.GetTickersQuotesList(tickers);
 
-        Assert.Equal(expectedTickersQuotes, tickersQuotes);
+        tickersQuotes.Should().Be(expectedTickersQuotes);
     }
 
     [Fact]
@@ -54,7 +54,7 @@ public class BrapiServiceTest
             async () => await this.brapiService.GetTickersQuotesList(null!)
         );
 
-        Assert.Equal("tickers", exception.ParamName);
+        exception.ParamName.Should().Be("tickers");
     }
 
     [Fact]
@@ -64,8 +64,8 @@ public class BrapiServiceTest
             async () => await this.brapiService.GetTickersQuotesList(new List<string> { })
         );
 
-        Assert.Contains("List of tickers cannot be empty", exception.Message);
-        Assert.Equal("tickers", exception.ParamName);
+        exception.Message.Should().Contain("List of tickers cannot be empty");
+        exception.ParamName.Should().Be("tickers");
     }
 
 }

@@ -1,6 +1,6 @@
 using DesafioBroker.Brapi.Dtos;
 using DesafioBroker.Brapi.Interfaces;
-using DesafioBroker.Configuration;
+using DesafioBroker.Configuration.Interfaces;
 using Newtonsoft.Json;
 
 namespace DesafioBroker.Brapi.Clients;
@@ -9,9 +9,9 @@ public class BrapiClient : IBrapiClient
 {
     private readonly HttpClient client;
 
-    private readonly ConfigurationService configurationService;
+    private readonly IConfigurationService configurationService;
 
-    public BrapiClient(HttpClient client, ConfigurationService configurationService)
+    public BrapiClient(HttpClient client, IConfigurationService configurationService)
     {
         this.configurationService = configurationService;
         this.client = client;

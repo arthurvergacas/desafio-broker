@@ -1,7 +1,10 @@
 using DesafioBroker.Brapi.Clients;
 using DesafioBroker.Brapi.Interfaces;
 using DesafioBroker.Brapi.Services;
-using DesafioBroker.Configuration;
+using DesafioBroker.Configuration.Interfaces;
+using DesafioBroker.Configuration.Services;
+using DesafioBroker.Mail.Interfaces;
+using DesafioBroker.Mail.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -23,8 +26,9 @@ internal sealed class HostManager
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddHttpClient<IBrapiClient, BrapiClient>();
-                    services.AddTransient<ConfigurationService>();
+                    services.AddTransient<IConfigurationService, ConfigurationService>();
                     services.AddTransient<BrapiService>();
+                    services.AddTransient<IMailService, MailService>();
                 })
                 .UseConsoleLifetime();
 
