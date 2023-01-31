@@ -18,11 +18,11 @@ public class MailService : IMailService
 
     public void SendMail(MailMessage message)
     {
-        using var smptClient = this.CreateSmtpClient();
-        smptClient.Send(message);
+        using var smtpClient = this.CreateSmtpClient();
+        smtpClient.Send(message);
     }
 
-    public SmtpClient CreateSmtpClient()
+    public virtual SmtpClient CreateSmtpClient()
     {
         var smtpConfig = this.configurationService.Configuration!.Email.SMTPConfig;
 
