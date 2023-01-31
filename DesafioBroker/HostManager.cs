@@ -1,3 +1,6 @@
+using DesafioBroker.Brapi.Clients;
+using DesafioBroker.Brapi.Interfaces;
+using DesafioBroker.Brapi.Services;
 using DesafioBroker.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -19,7 +22,9 @@ internal sealed class HostManager
             var builder = Host.CreateDefaultBuilder()
                 .ConfigureServices((hostContext, services) =>
                 {
+                    services.AddHttpClient<IBrapiClient, BrapiClient>();
                     services.AddTransient<ConfigurationService>();
+                    services.AddTransient<BrapiService>();
                 })
                 .UseConsoleLifetime();
 
