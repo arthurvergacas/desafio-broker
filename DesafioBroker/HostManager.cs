@@ -29,6 +29,7 @@ internal sealed class HostManager
                     services.AddTransient<IConfigurationService, ConfigurationService>();
                     services.AddTransient<IBrapiService, BrapiService>();
                     services.AddTransient<IMailService, MailService>();
+                    services.AddTransient<IMailMessageService, MailMessageService>();
                 })
                 .UseConsoleLifetime();
 
