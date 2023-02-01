@@ -22,6 +22,7 @@ public class MailMessageService : IMailMessageService
     {
         this.configurationService = configurationService;
     }
+
     public MailMessage CreateNotificationMessage(StockReferenceValues stockReferenceValues, StockQuotes stockQuotes)
     {
         if (stockQuotes.RegularMarketPrice > stockReferenceValues.SaleReferenceValue)
