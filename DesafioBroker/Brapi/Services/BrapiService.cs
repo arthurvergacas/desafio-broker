@@ -3,7 +3,7 @@ using DesafioBroker.Brapi.Interfaces;
 
 namespace DesafioBroker.Brapi.Services;
 
-public class BrapiService
+public class BrapiService : IBrapiService
 {
     private readonly IBrapiClient brapiClient;
 
