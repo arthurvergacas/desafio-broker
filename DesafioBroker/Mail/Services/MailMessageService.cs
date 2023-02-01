@@ -108,7 +108,7 @@ public class MailMessageService : IMailMessageService
         O preço da ação <strong>{stockQuotes.Symbol} | {stockQuotes.LongName}</strong> {(isSale ? "subiu" : "caiu")} para <strong>R$ {FormatDecimalToCurrency(stockQuotes.RegularMarketPrice)}</strong>, R$ {FormatDecimalToCurrency(difference)} mais {(isSale ? "caro" : "barato")} que o valor de referência definido para {(isSale ? "venda" : "compra")}, <strong>R$ {FormatDecimalToCurrency(isSale ? stockReferenceValues.SaleReferenceValue : stockReferenceValues.PurchaseReferenceValue)}</strong>.
         </p>
 
-        <p>Essa é uma boa hora para {(isSale ? "vender" : "comprar")} ações da empresa!</p>";
+        <p>Essa é uma boa hora para {(isSale ? "vender" : "comprar")} ações da empresa! 💵</p>";
     }
 
     private static string FormatDecimalToCurrency(decimal number)
