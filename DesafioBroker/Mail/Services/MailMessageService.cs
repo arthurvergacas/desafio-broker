@@ -12,6 +12,12 @@ public class MailMessageService : IMailMessageService
 
     private readonly IConfigurationService configurationService;
 
+    public enum NotificationMode
+    {
+        SALE,
+        PURCHASE
+    }
+
     public MailMessageService(IConfigurationService configurationService)
     {
         this.configurationService = configurationService;
@@ -41,7 +47,7 @@ public class MailMessageService : IMailMessageService
 
         mail.Subject = $"O preço da ação {stockQuotes.Symbol} subiu! 📈";
 
-        mail.Body = CreateBaseNotificationBody(stockReferenceValues, stockQuotes, true);
+        mail.Body = CreateBaseNotificationBody(stockReferenceValues, stockQuotes, NotificationMode.SALE);
 
         return mail;
     }
@@ -53,7 +59,7 @@ public class MailMessageService : IMailMessageService
 
         mail.Subject = $"O preço da ação {stockQuotes.Symbol} caiu! 📉";
 
-        mail.Body = CreateBaseNotificationBody(stockReferenceValues, stockQuotes, false);
+        mail.Body = CreateBaseNotificationBody(stockReferenceValues, stockQuotes, NotificationMode.PURCHASE);
 
         return mail;
     }
@@ -75,9 +81,12 @@ public class MailMessageService : IMailMessageService
     public static string CreateBaseNotificationBody(
         StockReferenceValues stockReferenceValues,
         StockQuotes stockQuotes,
-        bool isSale
+        NotificationMode mode
     )
     {
+
+        var isSale = NotificationMode.SALE.Equals(mode);
+
         var difference =
             Math.Abs((isSale
                 ? stockReferenceValues.SaleReferenceValue
