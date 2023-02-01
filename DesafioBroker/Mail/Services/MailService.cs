@@ -1,4 +1,3 @@
-using System.Globalization;
 using System.Net;
 using System.Net.Mail;
 using DesafioBroker.Configuration.Interfaces;
@@ -29,7 +28,7 @@ public class MailService : IMailService
         return new SmtpClient()
         {
             Host = smtpConfig.Host,
-            Port = int.Parse(smtpConfig.Port, new CultureInfo(CultureInfo.CurrentCulture.Name)),
+            Port = smtpConfig.Port,
             EnableSsl = true,
             Credentials = new NetworkCredential(smtpConfig.Username, smtpConfig.Password)
         };
