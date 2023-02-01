@@ -12,7 +12,7 @@ public class BrapiService
         this.brapiClient = brapiClient;
     }
 
-    public async Task<TickersQuotesList> GetTickersQuotesList(IEnumerable<string> tickers)
+    public async Task<StocksQuotesList> GetStocksQuotesList(IEnumerable<string> tickers)
     {
         ArgumentNullException.ThrowIfNull(tickers, nameof(tickers));
 
@@ -21,6 +21,6 @@ public class BrapiService
             throw new ArgumentException("List of tickers cannot be empty", nameof(tickers));
         }
 
-        return await this.brapiClient.GetTickersQuotesList(string.Join(',', tickers));
+        return await this.brapiClient.GetStocksQuotesList(string.Join(',', tickers));
     }
 }
