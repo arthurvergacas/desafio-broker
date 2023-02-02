@@ -23,7 +23,7 @@ public class MailMessageService : IMailMessageService
         this.configurationService = configurationService;
     }
 
-    public MailMessage CreateNotificationMessage(StockReferenceValues stockReferenceValues, StockQuotes stockQuotes)
+    public MailMessage CreateNotificationMessage(StockReferenceValuesDto stockReferenceValues, StockQuotesDto stockQuotes)
     {
         if (stockQuotes.RegularMarketPrice > stockReferenceValues.SaleReferenceValue)
         {
@@ -42,7 +42,7 @@ public class MailMessageService : IMailMessageService
         }
     }
 
-    public MailMessage CreateSaleNotificationMessage(StockReferenceValues stockReferenceValues, StockQuotes stockQuotes)
+    public MailMessage CreateSaleNotificationMessage(StockReferenceValuesDto stockReferenceValues, StockQuotesDto stockQuotes)
     {
         var mail = this.CreateBaseNotificationMessage();
 
@@ -54,7 +54,7 @@ public class MailMessageService : IMailMessageService
     }
 
 
-    public MailMessage CreatePurchaseNotificationMessage(StockReferenceValues stockReferenceValues, StockQuotes stockQuotes)
+    public MailMessage CreatePurchaseNotificationMessage(StockReferenceValuesDto stockReferenceValues, StockQuotesDto stockQuotes)
     {
         var mail = this.CreateBaseNotificationMessage();
 
@@ -80,8 +80,8 @@ public class MailMessageService : IMailMessageService
     }
 
     public static string CreateBaseNotificationBody(
-        StockReferenceValues stockReferenceValues,
-        StockQuotes stockQuotes,
+        StockReferenceValuesDto stockReferenceValues,
+        StockQuotesDto stockQuotes,
         NotificationMode mode
     )
     {

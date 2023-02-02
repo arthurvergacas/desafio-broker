@@ -20,7 +20,7 @@ public class BrapiServiceTest
     [Fact]
     public async Task GetStocksQuotesList_WithSomeTickers_ShouldReturnClientResult()
     {
-        var expectedStocksQuotes = new StocksQuotesList();
+        var expectedStocksQuotes = new StocksQuotesListDto();
 
         this.mockBrapiClient
             .Setup(service => service.GetStocksQuotesList(It.IsAny<string>()))
