@@ -18,50 +18,50 @@ public class BrapiServiceTest
     }
 
     [Fact]
-    public async Task GetTickersQuotesList_WithSomeTickers_ShouldReturnClientResult()
+    public async Task GetStocksQuotesList_WithSomeTickers_ShouldReturnClientResult()
     {
-        var expectedTickersQuotes = new TickersQuotesList();
+        var expectedStocksQuotes = new StocksQuotesList();
 
         this.mockBrapiClient
-            .Setup(service => service.GetTickersQuotesList(It.IsAny<string>()))
-            .ReturnsAsync(expectedTickersQuotes);
+            .Setup(service => service.GetStocksQuotesList(It.IsAny<string>()))
+            .ReturnsAsync(expectedStocksQuotes);
 
         var tickers = new List<string> { "PETR4", "VALE3" };
 
-        var tickersQuotes = await this.brapiService.GetTickersQuotesList(tickers);
+        var stocksQuotes = await this.brapiService.GetStocksQuotesList(tickers);
 
-        tickersQuotes.Should().Be(expectedTickersQuotes);
+        stocksQuotes.Should().Be(expectedStocksQuotes);
     }
 
     [Fact]
-    public async Task GetTickersQuotesList_WithSomeTickers_ShouldCallClientProperly()
+    public async Task GetStocksQuotesList_WithSomeTickers_ShouldCallClientProperly()
     {
         this.mockBrapiClient
-            .Setup(service => service.GetTickersQuotesList(It.IsAny<string>()));
+            .Setup(service => service.GetStocksQuotesList(It.IsAny<string>()));
 
         var tickers = new List<string> { "PETR4", "VALE3" };
         var parsedTickers = "PETR4,VALE3";
 
-        await this.brapiService.GetTickersQuotesList(tickers);
+        await this.brapiService.GetStocksQuotesList(tickers);
 
-        this.mockBrapiClient.Verify((service) => service.GetTickersQuotesList(parsedTickers));
+        this.mockBrapiClient.Verify((service) => service.GetStocksQuotesList(parsedTickers));
     }
 
     [Fact]
-    public async Task GetTickersQuotesList_WithNullTickers_ShouldThrowArgumentNullException()
+    public async Task GetStocksQuotesList_WithNullTickers_ShouldThrowArgumentNullException()
     {
         var exception = await Assert.ThrowsAsync<ArgumentNullException>(
-            async () => await this.brapiService.GetTickersQuotesList(null!)
+            async () => await this.brapiService.GetStocksQuotesList(null!)
         );
 
         exception.ParamName.Should().Be("tickers");
     }
 
     [Fact]
-    public async Task GetTickersQuotesList_WithNoTickers_ShouldThrowArgumentException()
+    public async Task GetStocksQuotesList_WithNoTickers_ShouldThrowArgumentException()
     {
         var exception = await Assert.ThrowsAsync<ArgumentException>(
-            async () => await this.brapiService.GetTickersQuotesList(new List<string> { })
+            async () => await this.brapiService.GetStocksQuotesList(new List<string> { })
         );
 
         exception.Message.Should().Contain("List of tickers cannot be empty");

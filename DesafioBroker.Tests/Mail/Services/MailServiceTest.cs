@@ -1,4 +1,3 @@
-using System.Globalization;
 using System.Net;
 using DesafioBroker.Configuration.Interfaces;
 using DesafioBroker.Configuration.Models;
@@ -22,7 +21,7 @@ public class MailServiceTest
                 SMTPConfig = new SmtpConfig
                 {
                     Host = "mockHost",
-                    Port = "123",
+                    Port = 123,
                     Username = "mockUsername",
                     Password = "mockPassword"
                 }
@@ -43,7 +42,7 @@ public class MailServiceTest
         var smtpConfig = this.mockConfiguration.Email.SMTPConfig;
 
         smtpClient.Host.Should().Be(smtpConfig.Host);
-        smtpClient.Port.ToString(new CultureInfo(CultureInfo.CurrentCulture.Name)).Should().Be(smtpConfig.Port);
+        smtpClient.Port.Should().Be(smtpConfig.Port);
         smtpClient.Credentials.Should().BeEquivalentTo(new NetworkCredential(smtpConfig.Username, smtpConfig.Password));
     }
 }

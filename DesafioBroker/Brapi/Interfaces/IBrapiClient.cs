@@ -4,5 +4,5 @@ namespace DesafioBroker.Brapi.Interfaces;
 
 public interface IBrapiClient
 {
-    Task<TickersQuotesList> GetTickersQuotesList(string parsedTickers);
+    Task<StocksQuotesList> GetStocksQuotesList(string parsedTickers);
 }

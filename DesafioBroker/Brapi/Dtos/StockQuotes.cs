@@ -1,6 +1,6 @@
 namespace DesafioBroker.Brapi.Dtos;
 
-public class TickerQuotes
+public class StockQuotes
 {
     public string Symbol { get; set; } = null!;
     public string ShortName { get; set; } = null!;
