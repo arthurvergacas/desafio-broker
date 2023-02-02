@@ -96,20 +96,27 @@ public class MailMessageService : IMailMessageService
 
         return @$"
         <head>
-        <style>
-        * {{
-            font-family: sans-serif;
-        }}
-        </style>
+            <style>
+                * {{
+                    font-family: sans-serif;
+                }}
+
+                p {{
+                    font-size: 1.15rem;
+                }}
+            </style>
         </head>
 
-        <h1>{stockQuotes.Symbol} | {stockQuotes.LongName} {(isSale ? "subiu" : "caiu")} para R$ {FormatDecimalToCurrency(stockQuotes.RegularMarketPrice)}! {(isSale ? "📈" : "📉")}</h1>
+        <body>
+            <h1>{stockQuotes.Symbol} | {stockQuotes.LongName} {(isSale ? "subiu" : "caiu")} para R$ {FormatDecimalToCurrency(stockQuotes.RegularMarketPrice)}! {(isSale ? "📈" : "📉")}</h1>
 
-        <p>
-        O preço da ação <strong>{stockQuotes.Symbol} | {stockQuotes.LongName}</strong> {(isSale ? "subiu" : "caiu")} para <strong>R$ {FormatDecimalToCurrency(stockQuotes.RegularMarketPrice)}</strong>, R$ {FormatDecimalToCurrency(difference)} mais {(isSale ? "caro" : "barato")} que o valor de referência definido para {(isSale ? "venda" : "compra")}, <strong>R$ {FormatDecimalToCurrency(isSale ? stockReferenceValues.SaleReferenceValue : stockReferenceValues.PurchaseReferenceValue)}</strong>.
-        </p>
+            <p>
+                O preço da ação <strong>{stockQuotes.Symbol} | {stockQuotes.LongName}</strong> {(isSale ? "subiu" : "caiu")} para <strong>R$ {FormatDecimalToCurrency(stockQuotes.RegularMarketPrice)}</strong>, R$ {FormatDecimalToCurrency(difference)} mais {(isSale ? "caro" : "barato")} que o valor de referência definido para {(isSale ? "venda" : "compra")}, <strong>R$ {FormatDecimalToCurrency(isSale ? stockReferenceValues.SaleReferenceValue : stockReferenceValues.PurchaseReferenceValue)}</strong>.
+            </p>
 
-        <p>Essa é uma boa hora para {(isSale ? "vender" : "comprar")} ações da empresa! 💵</p>";
+            <p>Essa é uma boa hora para {(isSale ? "vender" : "comprar")} ações da empresa! 💵</p>
+        </body>
+        ";
     }
 
     private static string FormatDecimalToCurrency(decimal number)
