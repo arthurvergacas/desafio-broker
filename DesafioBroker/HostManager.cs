@@ -7,6 +7,8 @@ using DesafioBroker.Mail.Interfaces;
 using DesafioBroker.Mail.Services;
 using DesafioBroker.StockSubscription.Interfaces;
 using DesafioBroker.StockSubscription.Services;
+using DesafioBroker.Core.Interfaces;
+using DesafioBroker.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -33,6 +35,8 @@ internal sealed class HostManager
                     services.AddTransient<IMailService, MailService>();
                     services.AddTransient<IMailMessageService, MailMessageService>();
                     services.AddTransient<IStockSubscriptionService, StockSubscriptionService>();
+                    services.AddTransient<IDesafioBrokerCoreService, DesafioBrokerCoreService>();
+                    services.AddTransient<IUserInputService, UserInputService>();
                 })
                 .UseConsoleLifetime();
 
