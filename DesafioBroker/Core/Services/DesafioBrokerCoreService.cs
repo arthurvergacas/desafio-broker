@@ -21,7 +21,5 @@ public class DesafioBrokerCoreService : IDesafioBrokerCoreService
         this.stockSubscriptionService.SubscribeToStock(stockSubscription);
 
         this.userInputService.WaitForUserCommands();
-
-        this.stockSubscriptionService.Dispose();
     }
 }
