@@ -13,7 +13,7 @@ namespace DesafioBroker.StockSubscription.Services;
 public class StockSubscriptionService : IStockSubscriptionService
 {
 
-    private enum NotificationType
+    public enum NotificationType
     {
         SALE,
         PURCHASE,
@@ -28,11 +28,11 @@ public class StockSubscriptionService : IStockSubscriptionService
 
     private readonly IConfigurationService configurationService;
 
-    private readonly Timer notificationTimer;
+    public Timer NotificationTimer { get; set; }
 
-    private StockSubscriptionDto stockSubscription = null!;
+    public StockSubscriptionDto StockSubscription { get; set; } = null!;
 
-    private NotificationType lastNotificationSentType = NotificationType.NONE;
+    public NotificationType LastNotificationSentType { get; set; } = NotificationType.NONE;
 
     public StockSubscriptionService(
         IBrapiService brapiService,
@@ -46,25 +46,25 @@ public class StockSubscriptionService : IStockSubscriptionService
         this.mailMessageService = mailMessageService;
         this.configurationService = configurationService;
 
-        this.notificationTimer = this.CreateTimer();
+        this.NotificationTimer = this.CreateTimer();
     }
 
     ~StockSubscriptionService()
     {
-        this.notificationTimer.Stop();
-        this.notificationTimer.Dispose();
+        this.NotificationTimer.Stop();
+        this.NotificationTimer.Dispose();
     }
 
     public void SubscribeToStock(string ticker, StockReferenceValuesDto stockReferenceValues)
     {
-        this.stockSubscription = new StockSubscriptionDto()
+        this.StockSubscription = new StockSubscriptionDto()
         {
             Ticker = ticker,
             StockReferenceValues = stockReferenceValues
         };
 
-        this.notificationTimer.Elapsed += this.OnNotificationTimerEvent;
-        this.notificationTimer.Start();
+        this.NotificationTimer.Elapsed += this.OnNotificationTimerEvent;
+        this.NotificationTimer.Start();
     }
 
     public async void OnNotificationTimerEvent(object? source, ElapsedEventArgs e)
@@ -79,9 +79,10 @@ public class StockSubscriptionService : IStockSubscriptionService
 
     public async Task<StockQuotesDto> GetSubscribedStockQuotes()
     {
-        var stockQuotes = await this.brapiService.GetStocksQuotesList(new List<string>() { this.stockSubscription.Ticker });
+        var stockQuotes =
+            await this.brapiService.GetStocksQuotesList(new List<string>() { this.StockSubscription.Ticker });
 
-        return stockQuotes.Results.First(quotes => quotes.Symbol == this.stockSubscription.Ticker);
+        return stockQuotes.Results.First(quotes => quotes.Symbol == this.StockSubscription.Ticker);
     }
 
     public bool ShouldNotifyUser(StockQuotesDto stockQuotes)
@@ -92,23 +93,23 @@ public class StockSubscriptionService : IStockSubscriptionService
     public bool ShouldSendSaleNotification(StockQuotesDto stockQuotes)
     {
         var isSaleScenario =
-            this.stockSubscription.StockReferenceValues.SaleReferenceValue < stockQuotes.RegularMarketPrice;
+            this.StockSubscription.StockReferenceValues.SaleReferenceValue < stockQuotes.RegularMarketPrice;
 
-        return isSaleScenario && !NotificationType.SALE.Equals(this.lastNotificationSentType);
+        return isSaleScenario && !NotificationType.SALE.Equals(this.LastNotificationSentType);
     }
 
     public bool ShouldSendPurchaseNotification(StockQuotesDto stockQuotes)
     {
         var iPurchaseScenario =
-            this.stockSubscription.StockReferenceValues.PurchaseReferenceValue > stockQuotes.RegularMarketPrice;
+            this.StockSubscription.StockReferenceValues.PurchaseReferenceValue > stockQuotes.RegularMarketPrice;
 
-        return iPurchaseScenario && !NotificationType.PURCHASE.Equals(this.lastNotificationSentType);
+        return iPurchaseScenario && !NotificationType.PURCHASE.Equals(this.LastNotificationSentType);
     }
 
-    private void NotifyUser(StockQuotesDto stockQuotes)
+    public void NotifyUser(StockQuotesDto stockQuotes)
     {
         var mailMessage = this.mailMessageService.CreateNotificationMessage(
-            this.stockSubscription.StockReferenceValues,
+            this.StockSubscription.StockReferenceValues,
             stockQuotes
         );
 
@@ -116,15 +117,15 @@ public class StockSubscriptionService : IStockSubscriptionService
 
         if (this.ShouldSendSaleNotification(stockQuotes))
         {
-            this.lastNotificationSentType = NotificationType.SALE;
+            this.LastNotificationSentType = NotificationType.SALE;
         }
         else if (this.ShouldSendPurchaseNotification(stockQuotes))
         {
-            this.lastNotificationSentType = NotificationType.PURCHASE;
+            this.LastNotificationSentType = NotificationType.PURCHASE;
         }
         else
         {
-            this.lastNotificationSentType = NotificationType.NONE;
+            this.LastNotificationSentType = NotificationType.NONE;
         }
     }
 
