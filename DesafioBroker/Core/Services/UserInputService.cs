@@ -16,7 +16,7 @@ public class UserInputService : IUserInputService
             );
         }
 
-        var ticker = args[0];
+        var ticker = args[0].Trim();
 
         decimal purchaseReferenceValue;
         decimal saleReferenceValue;
@@ -24,12 +24,12 @@ public class UserInputService : IUserInputService
         try
         {
             purchaseReferenceValue = decimal.Parse(
-                args[1],
+                args[1].Trim(),
                 System.Globalization.NumberStyles.Float,
                 System.Globalization.CultureInfo.CurrentCulture
             );
             saleReferenceValue = decimal.Parse(
-                args[2],
+                args[2].Trim(),
                 System.Globalization.NumberStyles.Float,
                 System.Globalization.CultureInfo.CurrentCulture
             );
