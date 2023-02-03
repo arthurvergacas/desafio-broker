@@ -18,7 +18,7 @@ public class BrapiClient : IBrapiClient
         this.client.BaseAddress = new Uri(this.configurationService.Configuration!.Stock.Brapi.QuotesUrl);
     }
 
-    public async Task<StocksQuotesList> GetStocksQuotesList(string parsedTickers)
+    public async Task<StocksQuotesListDto> GetStocksQuotesList(string parsedTickers)
     {
         var response = (await this.client.GetAsync(parsedTickers)).EnsureSuccessStatusCode();
 
@@ -26,7 +26,7 @@ public class BrapiClient : IBrapiClient
         using var streamReader = new StreamReader(stream, System.Text.Encoding.UTF8);
         using var jsonTextReader = new JsonTextReader(streamReader);
 
-        return new JsonSerializer().Deserialize<StocksQuotesList>(jsonTextReader) ?? new StocksQuotesList();
+        return new JsonSerializer().Deserialize<StocksQuotesListDto>(jsonTextReader) ?? new StocksQuotesListDto();
     }
 
 }

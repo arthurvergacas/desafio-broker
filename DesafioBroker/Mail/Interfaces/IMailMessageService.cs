@@ -6,5 +6,5 @@ namespace DesafioBroker.Mail.Interfaces;
 
 public interface IMailMessageService
 {
-    MailMessage CreateNotificationMessage(StockReferenceValues stockReferenceValues, StockQuotes stockQuotes);
+    MailMessage CreateNotificationMessage(StockReferenceValuesDto stockReferenceValues, StockQuotesDto stockQuotes);
 }

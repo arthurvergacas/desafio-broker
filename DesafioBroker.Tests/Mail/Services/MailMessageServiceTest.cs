@@ -1,9 +1,9 @@
 using System.Net.Mail;
 using DesafioBroker.Brapi.Dtos;
 using DesafioBroker.Configuration.Interfaces;
-using DesafioBroker.Configuration.Models;
 using DesafioBroker.Dtos;
 using DesafioBroker.Mail.Services;
+using DesafioBroker.Tests.Fixtures;
 using Moq;
 
 namespace DesafioBroker.Tests.Mail.Services;
@@ -12,27 +12,16 @@ public class MailMessageServiceTest
 {
     private readonly Mock<IConfigurationService> mockConfigurationService;
     private readonly Configuration.Models.Configuration mockConfiguration;
-    private readonly StockQuotes mockStockQuotes;
+    private readonly StockQuotesDto mockStockQuotes;
     private readonly MailMessageService mailMessageService;
 
     public MailMessageServiceTest()
     {
-        this.mockConfiguration = new Configuration.Models.Configuration()
-        {
-            Email = new Email()
-            {
-                SMTPConfig = new SmtpConfig
-                {
-                    Sender = "sender@mock.com"
-                },
-                Recipient = "recipient@mock.com"
-            }
-        };
-
+        this.mockConfiguration = ConfigurationFixture.GetFullConfigurationFixture();
         this.mockConfigurationService = new Mock<IConfigurationService>();
         this.mockConfigurationService.Setup(service => service.Configuration).Returns(this.mockConfiguration);
 
-        this.mockStockQuotes = new StockQuotes()
+        this.mockStockQuotes = new StockQuotesDto()
         {
             Symbol = "MOCK",
             LongName = "Mock Stock",
@@ -47,7 +36,7 @@ public class MailMessageServiceTest
         decimal saleReferenceValue = 12;
         decimal purchaseReferenceValue = 10;
 
-        var stockReferenceValues = new StockReferenceValues(saleReferenceValue, purchaseReferenceValue);
+        var stockReferenceValues = new StockReferenceValuesDto(saleReferenceValue, purchaseReferenceValue);
 
         this.mockStockQuotes.RegularMarketPrice = saleReferenceValue + 2;
 
@@ -62,7 +51,7 @@ public class MailMessageServiceTest
         decimal saleReferenceValue = 12;
         decimal purchaseReferenceValue = 10;
 
-        var stockReferenceValues = new StockReferenceValues(saleReferenceValue, purchaseReferenceValue);
+        var stockReferenceValues = new StockReferenceValuesDto(saleReferenceValue, purchaseReferenceValue);
 
         this.mockStockQuotes.RegularMarketPrice = purchaseReferenceValue - 2;
 
@@ -77,7 +66,7 @@ public class MailMessageServiceTest
         decimal saleReferenceValue = 12;
         decimal purchaseReferenceValue = 10;
 
-        var stockReferenceValues = new StockReferenceValues(saleReferenceValue, purchaseReferenceValue);
+        var stockReferenceValues = new StockReferenceValuesDto(saleReferenceValue, purchaseReferenceValue);
 
         this.mockStockQuotes.RegularMarketPrice = (saleReferenceValue + purchaseReferenceValue) / 2;
 
@@ -98,7 +87,7 @@ public class MailMessageServiceTest
         decimal saleReferenceValue = 12;
         decimal purchaseReferenceValue = 10;
 
-        var stockReferenceValues = new StockReferenceValues(saleReferenceValue, purchaseReferenceValue);
+        var stockReferenceValues = new StockReferenceValuesDto(saleReferenceValue, purchaseReferenceValue);
 
         this.mockStockQuotes.RegularMarketPrice = saleReferenceValue + 2;
 
@@ -117,7 +106,7 @@ public class MailMessageServiceTest
         decimal saleReferenceValue = 12;
         decimal purchaseReferenceValue = 10;
 
-        var stockReferenceValues = new StockReferenceValues(saleReferenceValue, purchaseReferenceValue);
+        var stockReferenceValues = new StockReferenceValuesDto(saleReferenceValue, purchaseReferenceValue);
 
         this.mockStockQuotes.RegularMarketPrice = purchaseReferenceValue - 2;
 

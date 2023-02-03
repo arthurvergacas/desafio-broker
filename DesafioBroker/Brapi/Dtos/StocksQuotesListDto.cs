@@ -2,9 +2,9 @@ using Newtonsoft.Json;
 
 namespace DesafioBroker.Brapi.Dtos;
 
-public class StocksQuotesList
+public class StocksQuotesListDto
 {
-    public IList<StockQuotes> Results { get; set; } = null!;
+    public IList<StockQuotesDto> Results { get; set; } = null!;
     public DateTime RequestedAt { get; set; }
 
     public override string ToString()

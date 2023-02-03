@@ -12,7 +12,7 @@ public class BrapiService : IBrapiService
         this.brapiClient = brapiClient;
     }
 
-    public async Task<StocksQuotesList> GetStocksQuotesList(IEnumerable<string> tickers)
+    public async Task<StocksQuotesListDto> GetStocksQuotesList(IEnumerable<string> tickers)
     {
         ArgumentNullException.ThrowIfNull(tickers, nameof(tickers));
 
