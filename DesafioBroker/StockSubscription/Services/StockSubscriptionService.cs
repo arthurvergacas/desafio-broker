@@ -3,14 +3,13 @@ using DesafioBroker.StockSubscription.Dtos;
 using DesafioBroker.Mail.Interfaces;
 using DesafioBroker.Brapi.Interfaces;
 using DesafioBroker.Configuration.Interfaces;
-using DesafioBroker.Dtos;
 using System.Timers;
 using Timer = System.Timers.Timer;
 using DesafioBroker.Brapi.Dtos;
 
 namespace DesafioBroker.StockSubscription.Services;
 
-public class StockSubscriptionService : IStockSubscriptionService
+public class StockSubscriptionService : IStockSubscriptionService, IDisposable
 {
 
     public enum NotificationType
@@ -49,22 +48,22 @@ public class StockSubscriptionService : IStockSubscriptionService
         this.NotificationTimer = this.CreateTimer();
     }
 
-    ~StockSubscriptionService()
+    public void Dispose()
     {
         this.NotificationTimer.Stop();
         this.NotificationTimer.Dispose();
+        GC.SuppressFinalize(this);
     }
 
-    public void SubscribeToStock(string ticker, StockReferenceValuesDto stockReferenceValues)
+    public void SubscribeToStock(StockSubscriptionDto stockSubscription)
     {
-        this.StockSubscription = new StockSubscriptionDto()
-        {
-            Ticker = ticker,
-            StockReferenceValues = stockReferenceValues
-        };
+        this.StockSubscription = stockSubscription;
 
         this.NotificationTimer.Elapsed += this.OnNotificationTimerEvent;
         this.NotificationTimer.Start();
+
+        // check stock immediately
+        this.OnNotificationTimerEvent(null, null!);
     }
 
     public async void OnNotificationTimerEvent(object? source, ElapsedEventArgs e)

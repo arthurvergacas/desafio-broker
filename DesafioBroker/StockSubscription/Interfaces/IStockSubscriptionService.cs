@@ -1,8 +1,9 @@
-using DesafioBroker.Dtos;
+using DesafioBroker.StockSubscription.Dtos;
 
 namespace DesafioBroker.StockSubscription.Interfaces;
 
 public interface IStockSubscriptionService
 {
-    void SubscribeToStock(string ticker, StockReferenceValuesDto stockReferenceValues);
+    void SubscribeToStock(StockSubscriptionDto stockSubscription);
+
 }
