@@ -47,28 +47,13 @@ public class StockSubscriptionServiceTest
     }
 
     [Fact]
-    public void SubscribeToStock_ShouldCreateStockSubscriptionProperly()
-    {
-        var service = this.CreateStockSubscriptionService();
-
-        var ticker = "PETR4";
-        var stockReferenceValues = new StockReferenceValuesDto(20, 10);
-
-        service.SubscribeToStock(ticker, stockReferenceValues);
-
-        service.StockSubscription.Ticker.Should().Be(ticker);
-        service.StockSubscription.StockReferenceValues.Should().BeEquivalentTo(stockReferenceValues);
-    }
-
-    [Fact]
     public void SubscribeToStock_ShouldStartTimer()
     {
         var service = this.CreateStockSubscriptionService();
 
-        var ticker = "PETR4";
-        var stockReferenceValues = new StockReferenceValuesDto(20, 10);
+        var stockSubscription = CreateMockStockSubscription();
 
-        service.SubscribeToStock(ticker, stockReferenceValues);
+        service.SubscribeToStock(stockSubscription);
 
         service.NotificationTimer.Enabled.Should().BeTrue();
     }
@@ -160,20 +145,22 @@ public class StockSubscriptionServiceTest
         );
     }
 
+    private static StockSubscriptionDto CreateMockStockSubscription()
+    {
+        return new StockSubscriptionDto()
+        {
+            Ticker = "PETR4",
+            StockReferenceValues = new StockReferenceValuesDto(20, 10)
+        };
+    }
+
     private StockQuotesDto SetupSaleScenario(StockSubscriptionService service)
     {
-        var ticker = "PETR4";
-        var stockReferenceValues = new StockReferenceValuesDto(20, 10);
-
-        service.StockSubscription = new StockSubscriptionDto()
-        {
-            Ticker = ticker,
-            StockReferenceValues = stockReferenceValues
-        };
+        service.StockSubscription = CreateMockStockSubscription();
 
         var stockQuotes = new StockQuotesDto()
         {
-            Symbol = ticker,
+            Symbol = service.StockSubscription.Ticker,
             RegularMarketPrice = 25m
         };
 
@@ -193,18 +180,11 @@ public class StockSubscriptionServiceTest
 
     private StockQuotesDto SetupPurchaseScenario(StockSubscriptionService service)
     {
-        var ticker = "PETR4";
-        var stockReferenceValues = new StockReferenceValuesDto(20, 10);
-
-        service.StockSubscription = new StockSubscriptionDto()
-        {
-            Ticker = ticker,
-            StockReferenceValues = stockReferenceValues
-        };
+        service.StockSubscription = CreateMockStockSubscription();
 
         var stockQuotes = new StockQuotesDto()
         {
-            Symbol = ticker,
+            Symbol = service.StockSubscription.Ticker,
             RegularMarketPrice = 5m
         };
 
