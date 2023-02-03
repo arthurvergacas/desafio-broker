@@ -51,6 +51,8 @@ public class StockSubscriptionServiceTest
     {
         var service = this.CreateStockSubscriptionService();
 
+        this.SetupPurchaseScenario(service);
+
         var stockSubscription = CreateMockStockSubscription();
 
         service.SubscribeToStock(stockSubscription);

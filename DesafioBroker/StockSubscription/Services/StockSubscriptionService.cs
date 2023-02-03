@@ -61,6 +61,9 @@ public class StockSubscriptionService : IStockSubscriptionService, IDisposable
 
         this.NotificationTimer.Elapsed += this.OnNotificationTimerEvent;
         this.NotificationTimer.Start();
+
+        // check stock immediately
+        this.OnNotificationTimerEvent(null, null!);
     }
 
     public async void OnNotificationTimerEvent(object? source, ElapsedEventArgs e)
