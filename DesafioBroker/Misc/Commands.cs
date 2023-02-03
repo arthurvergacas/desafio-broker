@@ -1,4 +1,4 @@
-namespace DesafioBroker.Shared;
+namespace DesafioBroker.Misc;
 
 public class Commands
 {
