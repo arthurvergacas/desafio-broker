@@ -9,7 +9,7 @@ using DesafioBroker.Brapi.Dtos;
 
 namespace DesafioBroker.StockSubscription.Services;
 
-public class StockSubscriptionService : IStockSubscriptionService
+public class StockSubscriptionService : IStockSubscriptionService, IDisposable
 {
 
     public enum NotificationType
