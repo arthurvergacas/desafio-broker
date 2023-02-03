@@ -48,10 +48,11 @@ public class StockSubscriptionService : IStockSubscriptionService
         this.NotificationTimer = this.CreateTimer();
     }
 
-    ~StockSubscriptionService()
+    public void Dispose()
     {
         this.NotificationTimer.Stop();
         this.NotificationTimer.Dispose();
+        GC.SuppressFinalize(this);
     }
 
     public void SubscribeToStock(StockSubscriptionDto stockSubscription)
