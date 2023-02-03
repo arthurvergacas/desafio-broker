@@ -25,11 +25,13 @@ public class ConfigurationFixture
             {
                 SMTPConfig = new SmtpConfig
                 {
+                    Sender = "sender@mock.com",
                     Host = "mockHost",
                     Port = 123,
                     Username = "mockUsername",
                     Password = "mockPassword"
-                }
+                },
+                Recipient = "recipient@mock.com"
             }
         };
     }
