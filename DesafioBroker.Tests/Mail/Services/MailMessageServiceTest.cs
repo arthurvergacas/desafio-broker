@@ -1,9 +1,9 @@
 using System.Net.Mail;
 using DesafioBroker.Brapi.Dtos;
 using DesafioBroker.Configuration.Interfaces;
-using DesafioBroker.Configuration.Models;
 using DesafioBroker.Dtos;
 using DesafioBroker.Mail.Services;
+using DesafioBroker.Tests.Fixtures;
 using Moq;
 
 namespace DesafioBroker.Tests.Mail.Services;
@@ -17,18 +17,7 @@ public class MailMessageServiceTest
 
     public MailMessageServiceTest()
     {
-        this.mockConfiguration = new Configuration.Models.Configuration()
-        {
-            Email = new Email()
-            {
-                SMTPConfig = new SmtpConfig
-                {
-                    Sender = "sender@mock.com"
-                },
-                Recipient = "recipient@mock.com"
-            }
-        };
-
+        this.mockConfiguration = ConfigurationFixture.GetFullConfigurationFixture();
         this.mockConfigurationService = new Mock<IConfigurationService>();
         this.mockConfigurationService.Setup(service => service.Configuration).Returns(this.mockConfiguration);
 
