@@ -24,12 +24,12 @@ public class UserInputService : IUserInputService
         try
         {
             purchaseReferenceValue = decimal.Parse(
-                args[1].Trim(),
+                args[1].Trim().Replace(',', '.'),
                 System.Globalization.NumberStyles.Float,
                 System.Globalization.CultureInfo.CurrentCulture
             );
             saleReferenceValue = decimal.Parse(
-                args[2].Trim(),
+                args[2].Trim().Replace(',', '.'),
                 System.Globalization.NumberStyles.Float,
                 System.Globalization.CultureInfo.CurrentCulture
             );
