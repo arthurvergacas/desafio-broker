@@ -36,7 +36,7 @@ public class MailMessageServiceTest
         decimal saleReferenceValue = 12;
         decimal purchaseReferenceValue = 10;
 
-        var stockReferenceValues = new StockReferenceValuesDto(saleReferenceValue, purchaseReferenceValue);
+        var stockReferenceValues = new StockReferenceValuesDto(purchaseReferenceValue, saleReferenceValue);
 
         this.mockStockQuotes.RegularMarketPrice = saleReferenceValue + 2;
 
@@ -51,7 +51,7 @@ public class MailMessageServiceTest
         decimal saleReferenceValue = 12;
         decimal purchaseReferenceValue = 10;
 
-        var stockReferenceValues = new StockReferenceValuesDto(saleReferenceValue, purchaseReferenceValue);
+        var stockReferenceValues = new StockReferenceValuesDto(purchaseReferenceValue, saleReferenceValue);
 
         this.mockStockQuotes.RegularMarketPrice = purchaseReferenceValue - 2;
 
@@ -66,7 +66,7 @@ public class MailMessageServiceTest
         decimal saleReferenceValue = 12;
         decimal purchaseReferenceValue = 10;
 
-        var stockReferenceValues = new StockReferenceValuesDto(saleReferenceValue, purchaseReferenceValue);
+        var stockReferenceValues = new StockReferenceValuesDto(purchaseReferenceValue, saleReferenceValue);
 
         this.mockStockQuotes.RegularMarketPrice = (saleReferenceValue + purchaseReferenceValue) / 2;
 
@@ -87,7 +87,7 @@ public class MailMessageServiceTest
         decimal saleReferenceValue = 12;
         decimal purchaseReferenceValue = 10;
 
-        var stockReferenceValues = new StockReferenceValuesDto(saleReferenceValue, purchaseReferenceValue);
+        var stockReferenceValues = new StockReferenceValuesDto(purchaseReferenceValue, saleReferenceValue);
 
         this.mockStockQuotes.RegularMarketPrice = saleReferenceValue + 2;
 
@@ -106,7 +106,7 @@ public class MailMessageServiceTest
         decimal saleReferenceValue = 12;
         decimal purchaseReferenceValue = 10;
 
-        var stockReferenceValues = new StockReferenceValuesDto(saleReferenceValue, purchaseReferenceValue);
+        var stockReferenceValues = new StockReferenceValuesDto(purchaseReferenceValue, saleReferenceValue);
 
         this.mockStockQuotes.RegularMarketPrice = purchaseReferenceValue - 2;
 

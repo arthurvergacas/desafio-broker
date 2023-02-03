@@ -150,7 +150,7 @@ public class StockSubscriptionServiceTest
         return new StockSubscriptionDto()
         {
             Ticker = "PETR4",
-            StockReferenceValues = new StockReferenceValuesDto(20, 10)
+            StockReferenceValues = new StockReferenceValuesDto(10, 20)
         };
     }
 
