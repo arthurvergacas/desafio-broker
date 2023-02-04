@@ -81,7 +81,9 @@ public class StockSubscriptionService : IStockSubscriptionService, IDisposable
         var stockQuotes =
             await this.brapiService.GetStocksQuotesList(new List<string>() { this.StockSubscription.Ticker });
 
-        return stockQuotes.Results.First(quotes => quotes.Symbol == this.StockSubscription.Ticker);
+        return stockQuotes.Results != null
+            ? stockQuotes.Results.First(quotes => quotes.Symbol == this.StockSubscription.Ticker)
+            : new StockQuotesDto();
     }
 
     public bool ShouldNotifyUser(StockQuotesDto stockQuotes)
