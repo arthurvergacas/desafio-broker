@@ -85,7 +85,7 @@ public class StockSubscriptionServiceTest
         this.mockBrapiService
             .Verify(
                 s => s.GetStocksQuotesList(
-                        It.Is<IEnumerable<string>>(tickers => tickers.Contains(service.StockSubscription.Ticker))
+                        It.Is<IList<string>>(tickers => tickers.Contains(service.StockSubscription.Ticker))
                     )
             );
     }
@@ -174,7 +174,7 @@ public class StockSubscriptionServiceTest
         };
 
         this.mockBrapiService
-            .Setup(service => service.GetStocksQuotesList(It.IsAny<IEnumerable<string>>()))
+            .Setup(service => service.GetStocksQuotesList(It.IsAny<IList<string>>()))
             .ReturnsAsync(stockQuotesList);
 
         return stockQuotes;
@@ -198,7 +198,7 @@ public class StockSubscriptionServiceTest
         };
 
         this.mockBrapiService
-            .Setup(service => service.GetStocksQuotesList(It.IsAny<IEnumerable<string>>()))
+            .Setup(service => service.GetStocksQuotesList(It.IsAny<IList<string>>()))
             .ReturnsAsync(stockQuotesList);
 
         return stockQuotes;
