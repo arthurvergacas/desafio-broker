@@ -14,4 +14,9 @@ public class ConfigurationService : IConfigurationService
         this.configurationInterface = configurationInterface;
     }
 
+    public bool IsDevelopment()
+    {
+        return this.Configuration.Environment != null && this.Configuration.Environment.ToLowerInvariant() == "dev";
+    }
+
 }
