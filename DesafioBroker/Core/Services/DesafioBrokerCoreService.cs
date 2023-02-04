@@ -5,21 +5,21 @@ namespace DesafioBroker.Core.Services;
 
 public class DesafioBrokerCoreService : IDesafioBrokerCoreService
 {
-    private readonly IUserInputService userInputService;
+    private readonly UserInteractionService userInteractionService;
 
     private readonly IStockSubscriptionService stockSubscriptionService;
 
-    public DesafioBrokerCoreService(IUserInputService userInputService, IStockSubscriptionService stockSubscriptionService)
+    public DesafioBrokerCoreService(UserInteractionService userInputService, IStockSubscriptionService stockSubscriptionService)
     {
-        this.userInputService = userInputService;
+        this.userInteractionService = userInputService;
         this.stockSubscriptionService = stockSubscriptionService;
     }
 
     public void Run(string[] args)
     {
-        var stockSubscription = this.userInputService.ParseUserInput(args);
+        var stockSubscription = this.userInteractionService.ParseUserInput(args);
         this.stockSubscriptionService.SubscribeToStock(stockSubscription);
 
-        this.userInputService.WaitForUserCommands();
+        this.userInteractionService.WaitForUserCommands();
     }
 }

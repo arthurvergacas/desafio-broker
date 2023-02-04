@@ -6,13 +6,13 @@ using Microsoft.Extensions.Hosting;
 
 namespace DesafioBroker.Core.Services;
 
-public class UserInputService : IUserInputService
+public class UserInteractionService : IUserInteractionService
 {
     private readonly IHostApplicationLifetime applicationLifetime;
 
     private bool applicationRunning = true;
 
-    public UserInputService(IHostApplicationLifetime applicationLifetime)
+    public UserInteractionService(IHostApplicationLifetime applicationLifetime)
     {
         this.applicationLifetime = applicationLifetime;
 

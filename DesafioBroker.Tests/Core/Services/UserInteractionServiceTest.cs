@@ -1,13 +1,23 @@
 using DesafioBroker.Core.Services;
+using Microsoft.Extensions.Hosting;
+using Moq;
 
 namespace DesafioBroker.Tests.Core.Services;
 
-public class UserInputServiceTest
+public class UserInteractionServiceTest
 {
+
+    private readonly Mock<IHostApplicationLifetime> mockHostApplicationLifetime;
+
+    public UserInteractionServiceTest()
+    {
+        this.mockHostApplicationLifetime = new Mock<IHostApplicationLifetime>();
+    }
+
     [Fact]
     public void ParseUserInput_WithCorrectArgs_ShouldReturnStockSubscription()
     {
-        var service = new UserInputService();
+        var service = new UserInteractionService(this.mockHostApplicationLifetime.Object);
 
         var ticker = "PETR4";
 
@@ -29,7 +39,7 @@ public class UserInputServiceTest
     [Fact]
     public void ParseUserInput_WithIncorrectNumberOfArgs_ShouldThrowAnException()
     {
-        var service = new UserInputService();
+        var service = new UserInteractionService(this.mockHostApplicationLifetime.Object);
 
         var ticker = "PETR4";
 
@@ -50,7 +60,7 @@ public class UserInputServiceTest
     [InlineData("23,1a1", "45.,1")]
     public void ParseUserInput_WithMalformedNumbers_ShouldThrowAnException(string purchaseReference, string saleReference)
     {
-        var service = new UserInputService();
+        var service = new UserInteractionService(this.mockHostApplicationLifetime.Object);
 
         var ticker = "PETR4";
 
@@ -72,7 +82,7 @@ public class UserInputServiceTest
         string saleReference
     )
     {
-        var service = new UserInputService();
+        var service = new UserInteractionService(this.mockHostApplicationLifetime.Object);
 
         var parseUserAction = () => service.ParseUserInput(
            new string[] { ticker, purchaseReference, saleReference }
