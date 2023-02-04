@@ -141,7 +141,7 @@ public class StockSubscriptionService : IStockSubscriptionService, IDisposable
             Console.WriteLine($"The {this.StockSubscription.Ticker} quotes dropped!");
         }
 
-        Console.WriteLine($"Notification sent to {this.configurationService.Configuration.Email.Recipient}.");
+        Console.WriteLine($"Notification sent to {this.configurationService.Configuration.Email.Recipient}.\n");
     }
 
     public Timer CreateTimer()
