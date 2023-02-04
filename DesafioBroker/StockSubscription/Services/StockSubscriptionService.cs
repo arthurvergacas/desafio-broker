@@ -126,6 +126,22 @@ public class StockSubscriptionService : IStockSubscriptionService, IDisposable
         {
             this.LastNotificationSentType = NotificationType.NONE;
         }
+
+        this.LogNotificationSent();
+    }
+
+    private void LogNotificationSent()
+    {
+        if (NotificationType.SALE.Equals(this.LastNotificationSentType))
+        {
+            Console.WriteLine($"The {this.StockSubscription.Ticker} quotes rose!");
+        }
+        else if (NotificationType.PURCHASE.Equals(this.LastNotificationSentType))
+        {
+            Console.WriteLine($"The {this.StockSubscription.Ticker} quotes dropped!");
+        }
+
+        Console.WriteLine($"Notification sent to {this.configurationService.Configuration.Email.Recipient}.");
     }
 
     public Timer CreateTimer()
