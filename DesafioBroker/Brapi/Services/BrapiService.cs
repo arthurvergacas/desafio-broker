@@ -34,7 +34,7 @@ public class BrapiService : IBrapiService
         {
             if (e.StatusCode == HttpStatusCode.NotFound)
             {
-                this.errorHandlerService.HandleError(e, $"Ticker {tickers[0]} could not be found.");
+                this.errorHandlerService.HandleError(e, $"Ticker '{tickers[0]}' could not be found.");
             }
             else
             {
