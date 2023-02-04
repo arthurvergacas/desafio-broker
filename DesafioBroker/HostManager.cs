@@ -37,6 +37,7 @@ internal sealed class HostManager
                     services.AddTransient<IStockSubscriptionService, StockSubscriptionService>();
                     services.AddTransient<IDesafioBrokerCoreService, DesafioBrokerCoreService>();
                     services.AddTransient<IUserInputService, UserInputService>();
+                    services.AddTransient<IErrorHandlerService, ErrorHandlerService>();
                 })
                 .UseConsoleLifetime();
 
