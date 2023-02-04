@@ -70,18 +70,18 @@ public class StockSubscriptionService : IStockSubscriptionService, IDisposable
     {
         var stockQuotes = await this.GetSubscribedStockQuotes();
 
-        if (this.ShouldNotifyUser(stockQuotes))
+        if (stockQuotes != null && this.ShouldNotifyUser(stockQuotes))
         {
             this.NotifyUser(stockQuotes);
         }
     }
 
-    public async Task<StockQuotesDto> GetSubscribedStockQuotes()
+    public async Task<StockQuotesDto?> GetSubscribedStockQuotes()
     {
         var stockQuotes =
             await this.brapiService.GetStocksQuotesList(new List<string>() { this.StockSubscription.Ticker });
 
-        return stockQuotes.Results.First(quotes => quotes.Symbol == this.StockSubscription.Ticker);
+        return stockQuotes.Results?.First(quotes => quotes.Symbol == this.StockSubscription.Ticker);
     }
 
     public bool ShouldNotifyUser(StockQuotesDto stockQuotes)

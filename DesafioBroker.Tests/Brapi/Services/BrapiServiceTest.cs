@@ -1,4 +1,5 @@
 using Moq;
+using DesafioBroker.Core.Interfaces;
 using DesafioBroker.Brapi.Interfaces;
 using DesafioBroker.Brapi.Dtos;
 using DesafioBroker.Brapi.Services;
@@ -8,18 +9,21 @@ namespace DesafioBroker.Tests.Brapi.Services;
 public class BrapiServiceTest
 {
     private readonly Mock<IBrapiClient> mockBrapiClient;
-    private readonly BrapiService brapiService;
+
+    private readonly Mock<IErrorHandlerService> mockErrorHandlerService;
 
     public BrapiServiceTest()
     {
         this.mockBrapiClient = new Mock<IBrapiClient>();
 
-        this.brapiService = new BrapiService(this.mockBrapiClient.Object);
+        this.mockErrorHandlerService = new Mock<IErrorHandlerService>();
     }
 
     [Fact]
     public async Task GetStocksQuotesList_WithSomeTickers_ShouldReturnClientResult()
     {
+        var service = new BrapiService(this.mockBrapiClient.Object, this.mockErrorHandlerService.Object);
+
         var expectedStocksQuotes = new StocksQuotesListDto();
 
         this.mockBrapiClient
@@ -28,7 +32,7 @@ public class BrapiServiceTest
 
         var tickers = new List<string> { "PETR4", "VALE3" };
 
-        var stocksQuotes = await this.brapiService.GetStocksQuotesList(tickers);
+        var stocksQuotes = await service.GetStocksQuotesList(tickers);
 
         stocksQuotes.Should().Be(expectedStocksQuotes);
     }
@@ -36,13 +40,15 @@ public class BrapiServiceTest
     [Fact]
     public async Task GetStocksQuotesList_WithSomeTickers_ShouldCallClientProperly()
     {
+        var service = new BrapiService(this.mockBrapiClient.Object, this.mockErrorHandlerService.Object);
+
         this.mockBrapiClient
             .Setup(service => service.GetStocksQuotesList(It.IsAny<string>()));
 
         var tickers = new List<string> { "PETR4", "VALE3" };
         var parsedTickers = "PETR4,VALE3";
 
-        await this.brapiService.GetStocksQuotesList(tickers);
+        await service.GetStocksQuotesList(tickers);
 
         this.mockBrapiClient.Verify((service) => service.GetStocksQuotesList(parsedTickers));
     }
@@ -50,8 +56,10 @@ public class BrapiServiceTest
     [Fact]
     public async Task GetStocksQuotesList_WithNullTickers_ShouldThrowArgumentNullException()
     {
+        var service = new BrapiService(this.mockBrapiClient.Object, this.mockErrorHandlerService.Object);
+
         var exception = await Assert.ThrowsAsync<ArgumentNullException>(
-            async () => await this.brapiService.GetStocksQuotesList(null!)
+            async () => await service.GetStocksQuotesList(null!)
         );
 
         exception.ParamName.Should().Be("tickers");
@@ -60,8 +68,10 @@ public class BrapiServiceTest
     [Fact]
     public async Task GetStocksQuotesList_WithNoTickers_ShouldThrowArgumentException()
     {
+        var service = new BrapiService(this.mockBrapiClient.Object, this.mockErrorHandlerService.Object);
+
         var exception = await Assert.ThrowsAsync<ArgumentException>(
-            async () => await this.brapiService.GetStocksQuotesList(new List<string> { })
+            async () => await service.GetStocksQuotesList(new List<string> { })
         );
 
         exception.Message.Should().Contain("List of tickers cannot be empty");

@@ -73,6 +73,22 @@ public class StockSubscriptionServiceTest
     }
 
     [Fact]
+    public void OnNotificationTimerEvent_WhenShouldNotifyUser_And_StockQuotesIsNull_ShouldNotSendMailNotification()
+    {
+        var service = this.CreateStockSubscriptionService();
+
+        this.SetupPurchaseScenario(service);
+
+        this.mockBrapiService
+            .Setup(service => service.GetStocksQuotesList(It.IsAny<IList<string>>()))
+            .ReturnsAsync(new StocksQuotesListDto());
+
+        service.OnNotificationTimerEvent(null, null!);
+
+        this.mockMailService.Verify(service => service.SendMail(It.IsAny<MailMessage>()), Times.Never());
+    }
+
+    [Fact]
     public async void GetSubscribedStockQuotes_ShouldCallBrapiApiWithSubscribedStockTicker()
     {
         var service = this.CreateStockSubscriptionService();
@@ -85,7 +101,7 @@ public class StockSubscriptionServiceTest
         this.mockBrapiService
             .Verify(
                 s => s.GetStocksQuotesList(
-                        It.Is<IEnumerable<string>>(tickers => tickers.Contains(service.StockSubscription.Ticker))
+                        It.Is<IList<string>>(tickers => tickers.Contains(service.StockSubscription.Ticker))
                     )
             );
     }
@@ -174,7 +190,7 @@ public class StockSubscriptionServiceTest
         };
 
         this.mockBrapiService
-            .Setup(service => service.GetStocksQuotesList(It.IsAny<IEnumerable<string>>()))
+            .Setup(service => service.GetStocksQuotesList(It.IsAny<IList<string>>()))
             .ReturnsAsync(stockQuotesList);
 
         return stockQuotes;
@@ -198,7 +214,7 @@ public class StockSubscriptionServiceTest
         };
 
         this.mockBrapiService
-            .Setup(service => service.GetStocksQuotesList(It.IsAny<IEnumerable<string>>()))
+            .Setup(service => service.GetStocksQuotesList(It.IsAny<IList<string>>()))
             .ReturnsAsync(stockQuotesList);
 
         return stockQuotes;
