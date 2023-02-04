@@ -36,6 +36,8 @@ public class DesafioBrokerCoreService : IDesafioBrokerCoreService
 
     public void Run(string[] args)
     {
+        this.ShowGreetingMessage();
+
         try
         {
             var stockSubscription = this.userInteractionService.ParseUserInput(args);
@@ -47,6 +49,15 @@ public class DesafioBrokerCoreService : IDesafioBrokerCoreService
         }
 
         this.userInteractionService.WaitForUserCommands();
+    }
+
+    private void ShowGreetingMessage()
+    {
+        Console.WriteLine("Welcome to your personal stock tracker!\n");
+        Console.WriteLine(
+            $"The notifications about rise and fall of the chosen stock will be sent to {this.configurationService.Configuration.Email.Recipient}."
+        );
+        Console.WriteLine("\nAt any moment, you can terminate the tracker pressing 'q' on your keyboard.\n");
     }
 
     private void UnhandledExceptionTrapper(object sender, UnhandledExceptionEventArgs e)
