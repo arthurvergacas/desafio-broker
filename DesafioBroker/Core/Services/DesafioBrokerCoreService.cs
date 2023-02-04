@@ -26,9 +26,7 @@ public class DesafioBrokerCoreService : IDesafioBrokerCoreService
         this.errorHandlerService = errorHandlerService;
         this.configurationService = configurationService;
 
-        var environment = this.configurationService.Configuration.Environment;
-
-        if (environment == null || environment.ToLowerInvariant() != "dev")
+        if (!this.configurationService.IsDevelopment())
         {
             AppDomain.CurrentDomain.UnhandledException += this.UnhandledExceptionTrapper;
         }
