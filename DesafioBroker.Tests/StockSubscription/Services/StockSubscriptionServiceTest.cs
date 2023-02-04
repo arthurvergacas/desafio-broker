@@ -73,6 +73,22 @@ public class StockSubscriptionServiceTest
     }
 
     [Fact]
+    public void OnNotificationTimerEvent_WhenShouldNotifyUser_And_StockQuotesIsNull_ShouldNotSendMailNotification()
+    {
+        var service = this.CreateStockSubscriptionService();
+
+        this.SetupPurchaseScenario(service);
+
+        this.mockBrapiService
+            .Setup(service => service.GetStocksQuotesList(It.IsAny<IList<string>>()))
+            .ReturnsAsync(new StocksQuotesListDto());
+
+        service.OnNotificationTimerEvent(null, null!);
+
+        this.mockMailService.Verify(service => service.SendMail(It.IsAny<MailMessage>()), Times.Never());
+    }
+
+    [Fact]
     public async void GetSubscribedStockQuotes_ShouldCallBrapiApiWithSubscribedStockTicker()
     {
         var service = this.CreateStockSubscriptionService();
