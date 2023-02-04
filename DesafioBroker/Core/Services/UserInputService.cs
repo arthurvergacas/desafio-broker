@@ -2,11 +2,23 @@ using DesafioBroker.Core.Interfaces;
 using DesafioBroker.Dtos;
 using DesafioBroker.StockSubscription.Dtos;
 using DesafioBroker.Misc;
+using Microsoft.Extensions.Hosting;
 
 namespace DesafioBroker.Core.Services;
 
 public class UserInputService : IUserInputService
 {
+    private readonly IHostApplicationLifetime applicationLifetime;
+
+    private bool applicationRunning = true;
+
+    public UserInputService(IHostApplicationLifetime applicationLifetime)
+    {
+        this.applicationLifetime = applicationLifetime;
+
+        this.applicationLifetime.ApplicationStopping.Register(this.OnApplicationStopping);
+    }
+
     public StockSubscriptionDto ParseUserInput(string[] args)
     {
         if (args.Length != 3)
@@ -49,9 +61,17 @@ public class UserInputService : IUserInputService
     public void WaitForUserCommands()
     {
         var command = string.Empty;
-        while (command != Commands.EXIT)
+        while (this.applicationRunning && command != Commands.EXIT)
         {
-            command = Console.ReadKey().KeyChar.ToString();
+            if (Console.KeyAvailable)
+            {
+                command = Console.ReadKey().KeyChar.ToString();
+            }
         }
+    }
+
+    private void OnApplicationStopping()
+    {
+        this.applicationRunning = false;
     }
 }
