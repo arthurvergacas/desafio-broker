@@ -19,6 +19,11 @@ public class ErrorHandlerService : IErrorHandlerService
         this.ExitApplication();
     }
 
+    public void HandleError(Exception e)
+    {
+        this.HandleError(e, null);
+    }
+
     private void ExitApplication()
     {
         this.applicationLifetime.StopApplication();
