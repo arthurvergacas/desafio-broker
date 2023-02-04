@@ -9,16 +9,26 @@ public class DesafioBrokerCoreService : IDesafioBrokerCoreService
 
     private readonly IStockSubscriptionService stockSubscriptionService;
 
-    public DesafioBrokerCoreService(UserInteractionService userInputService, IStockSubscriptionService stockSubscriptionService)
+    private readonly IErrorHandlerService errorHandlerService;
+
+    public DesafioBrokerCoreService(UserInteractionService userInteractionService, IStockSubscriptionService stockSubscriptionService, IErrorHandlerService errorHandlerService)
     {
-        this.userInteractionService = userInputService;
+        this.userInteractionService = userInteractionService;
         this.stockSubscriptionService = stockSubscriptionService;
+        this.errorHandlerService = errorHandlerService;
     }
 
     public void Run(string[] args)
     {
-        var stockSubscription = this.userInteractionService.ParseUserInput(args);
-        this.stockSubscriptionService.SubscribeToStock(stockSubscription);
+        try
+        {
+            var stockSubscription = this.userInteractionService.ParseUserInput(args);
+            this.stockSubscriptionService.SubscribeToStock(stockSubscription);
+        }
+        catch (Exception e)
+        {
+            this.errorHandlerService.HandleError(e);
+        }
 
         this.userInteractionService.WaitForUserCommands();
     }
